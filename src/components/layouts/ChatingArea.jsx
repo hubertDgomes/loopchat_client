@@ -3,17 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+const socket = io(`${import.meta.env.VITE_API_LINK}`);
 
 const ChatingArea = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const [userId, setUserId] = useState([]);
+  const [userId, setUserId] = useState(null);
   // console.log(id);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/getuser", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_LINK}/api/getuser`, { withCredentials: true })
       .then((res) => setUserId(res.data._id));
   }, []);
 
@@ -21,7 +21,7 @@ const ChatingArea = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/getuserbyid/${id}`, {
+      .get(`${import.meta.env.VITE_API_LINK}/api/getuserbyid/${id}`, {
         withCredentials: true,
       })
       .then((res) => setData(res.data));
@@ -34,17 +34,28 @@ const ChatingArea = () => {
 
   // You need the logged-in user's ID — get it from your session/context
   const myUserId = userId; // Replace with real value
-  // Generate consistent room ID (sorted)
-  const roomId = [myUserId, id].sort().join("_");
+  // Generate consistent room ID (sorted), wait until myUserId is available
+  const roomId = myUserId && id ? [myUserId, id].sort().join("_") : null;
   useEffect(() => {
+    if (!roomId) return;
+
     // Step 1: Join the private room
     socket.emit("join_room", roomId);
-    // Step 2: Listen for incoming messages
+
+    // 2. Ask the backend for previous messages saved in DB
+    socket.emit("get_message" , roomId)
+    // 3. Listen for the backend sending us those old messages
+    socket.on("load_message" , (data)=> {
+      setMessages(data);
+    })
+    // Step 4: Listen for incoming messages
     socket.on("receive_message", (data) => {
       setMessages((prev) => [...prev, data]);
     });
     // Cleanup on unmount
     return () => {
+      socket.off("load_message");
+      socket.off("get_message");
       socket.off("receive_message");
     };
   }, [roomId]);
@@ -55,8 +66,8 @@ const ChatingArea = () => {
 
     const messageData = {
       room: roomId,
-      message: input,
-      author: myUserId,
+      text: input,
+      sender: myUserId,
     };
 
     socket.emit("send_message", messageData);
@@ -88,7 +99,7 @@ const ChatingArea = () => {
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
         {messages.map((msg, index) => {
-          const isMe = msg.author === myUserId;
+          const isMe = msg.sender === myUserId;
           return (
             <div key={index} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
               <span
@@ -98,7 +109,7 @@ const ChatingArea = () => {
                     : "bg-white text-gray-900 rounded-bl-sm shadow-sm ring-1 ring-gray-100"
                 }`}
               >
-                {msg.message}
+                {msg.text}
               </span>
             </div>
           );

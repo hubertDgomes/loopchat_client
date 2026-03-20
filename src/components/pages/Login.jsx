@@ -11,7 +11,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:3000/api/login", { email, password }, { withCredentials: true })
+      await axios.post(`${import.meta.env.VITE_API_LINK}/api/login`, { email, password }, { withCredentials: true })
         .then(() => alert("Login successfull!"))
         .then(() => navigate("/app"))
     } catch (err) {

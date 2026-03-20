@@ -12,7 +12,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3000/api/signup",
+        `${import.meta.env.VITE_API_LINK}/api/signup`,
         { fullName, email, password },
         { withCredentials: true }
       ).then(() => alert("Signup Successfully!")).then(() => navigate("/profilephoto"))

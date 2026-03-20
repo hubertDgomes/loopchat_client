@@ -24,7 +24,7 @@ const ProfilePhoto = () => {
     const formData = new FormData();
     formData.append("profilePhoto", image);
     try {
-      await axios.post("http://localhost:3000/api/profilephotoadd", formData, {
+      await axios.post(`${import.meta.env.VITE_API_LINK}/api/profilephotoadd`, formData, {
         withCredentials: true,
       }).then(() => {
         alert("Profile picture has been updated!");

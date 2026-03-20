@@ -6,7 +6,7 @@ const LeftBar = () => {
   const [user, setUser] = useState([])
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/allusers", { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_LINK}/api/allusers`, { withCredentials: true })
       .then((res) => setUser(res.data))
       .catch((err) => console.log(err))
   }, [])
