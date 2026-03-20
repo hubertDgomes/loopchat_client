@@ -7,7 +7,7 @@ const RootLayout = () => {
   return (
     <div className="h-screen w-full bg-indigo-50/30 flex overflow-hidden font-sans">
       <div className="flex w-full h-full max-w-[1600px] mx-auto bg-white shadow-2xl shadow-indigo-100/50 sm:border-x border-gray-100">
-        <div className="w-[320px] flex-shrink-0 h-full border-r border-gray-100 bg-gray-50/50 flex flex-col">
+        <div className="w-[100px] sm:w-[320px] flex-shrink-0 h-full border-r border-gray-100 bg-gray-50/50 flex flex-col">
           <LeftBar />
         </div>
         <div className="flex-1 h-full min-w-0 bg-white flex flex-col relative shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.05)] z-10">
