@@ -32,27 +32,26 @@ const ChatingArea = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  // You need the logged-in user's ID — get it from your session/context
-  const myUserId = userId; // Replace with real value
-  // Generate consistent room ID (sorted), wait until myUserId is available
+  const myUserId = userId; 
   const roomId = myUserId && id ? [myUserId, id].sort().join("_") : null;
   useEffect(() => {
     if (!roomId) return;
 
-    // Step 1: Join the private room
+
     socket.emit("join_room", roomId);
 
-    // 2. Ask the backend for previous messages saved in DB
     socket.emit("get_message" , roomId)
-    // 3. Listen for the backend sending us those old messages
+
+
     socket.on("load_message" , (data)=> {
       setMessages(data);
     })
-    // Step 4: Listen for incoming messages
+
     socket.on("receive_message", (data) => {
       setMessages((prev) => [...prev, data]);
     });
-    // Cleanup on unmount
+
+
     return () => {
       socket.off("load_message");
       socket.off("get_message");
@@ -68,18 +67,53 @@ const ChatingArea = () => {
       room: roomId,
       text: input,
       sender: myUserId,
+      imageUrl: null,
     };
 
     socket.emit("send_message", messageData);
     setInput("");
   };
 
-  console.log(messages);
+  const handleImageUploadAndSend = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("imageUrl", file);
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_LINK}/api/upload-chat-photo`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const uploadedImageUrl = res.data.imageUrl;
+
+      const messageData = {
+        room: roomId,
+        text: "",
+        sender: myUserId,
+        imageUrl: uploadedImageUrl,
+      };
+
+      socket.emit("send_message", messageData);
+    } catch (error) {
+      console.error("Failed to upload image", error);
+    }
+  };
+
+  // console.log(messages);
   
 
   return (
     <div className="flex flex-col h-full bg-slate-50 relative">
-      {/* Chat Header */}
+
       <div className="flex items-center space-x-4 p-4 bg-white/80 backdrop-blur-md border-b border-gray-100 z-10 sticky top-0 shadow-sm">
         <div className="relative">
           <img
@@ -102,15 +136,22 @@ const ChatingArea = () => {
           const isMe = msg.sender === myUserId;
           return (
             <div key={index} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-              <span
-                className={`px-4 py-2 rounded-2xl text-sm max-w-xs break-words ${
+              <div
+                className={`px-4 py-2 rounded-2xl text-sm max-w-xs break-words flex flex-col gap-2 ${
                   isMe
                     ? "bg-indigo-600 text-white rounded-br-sm"
                     : "bg-white text-gray-900 rounded-bl-sm shadow-sm ring-1 ring-gray-100"
                 }`}
               >
-                {msg.text}
-              </span>
+                {msg.imageUrl && (
+                  <img
+                    src={msg.imageUrl}
+                    alt="Chat Image"
+                    className="max-w-[200px] rounded-lg object-cover"
+                  />
+                )}
+                {msg.text && <span>{msg.text}</span>}
+              </div>
             </div>
           );
         })}
@@ -121,10 +162,13 @@ const ChatingArea = () => {
           onSubmit={handleSend}
           className="flex items-center gap-2 bg-gray-50 p-2 rounded-2xl ring-1 ring-inset ring-gray-200 focus-within:ring-2 focus-within:ring-indigo-600 transition-shadow"
         >
-          <button
-            type="button"
-            className="p-2 text-gray-400 hover:text-indigo-600 transition-colors rounded-full cursor-pointer"
-          >
+          <label className="p-2 text-gray-400 hover:text-indigo-600 transition-colors rounded-full cursor-pointer">
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUploadAndSend}
+            />
             <svg
               className="w-5 h-5"
               fill="none"
@@ -135,10 +179,10 @@ const ChatingArea = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
               />
             </svg>
-          </button>
+          </label>
 
           <input
             type="text"
