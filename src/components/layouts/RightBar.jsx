@@ -8,7 +8,6 @@ const RightBar = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    setData(null);
     axios
       .get(`${import.meta.env.VITE_API_LINK}/api/getuserbyid/${id}`, {
         withCredentials: true,
@@ -35,9 +34,9 @@ const RightBar = () => {
   }
 
   return (
-    <div className="h-full w-full bg-[#f8fafc] flex flex-col overflow-y-auto border-l border-gray-100 shadow-[-2px_0_8px_rgba(0,0,0,0.02)] relative">
+    <div className="h-full w-full bg-gradient-to-b from-slate-50/80 to-white flex flex-col overflow-y-auto border-l border-gray-100/80 shadow-[-2px_0_8px_rgba(0,0,0,0.02)] relative">
       {/* Top Banner Gradient */}
-      <div className="absolute top-0 w-full h-32 bg-linear-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-b-xl z-0"></div>
+      <div className="absolute top-0 w-full h-36 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-b-2xl z-0 shadow-lg"></div>
       
       <div className="relative pt-16 px-6 pb-6 flex flex-col items-center z-10">
         {/* Profile Avatar */}
