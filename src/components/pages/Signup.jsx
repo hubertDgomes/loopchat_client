@@ -22,21 +22,25 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
-      <div className="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-gray-900/5 p-8 sm:p-10 transition-all duration-300">
+    <div className="flex items-center justify-center min-h-[100dvh] bg-[#020617] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] p-4 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 left-20 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+
+      <div className="w-full max-w-md glass-panel rounded-[2rem] p-8 sm:p-10 transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] relative z-10 border border-white/10 shadow-2xl shadow-black/50">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600/10 text-indigo-600 mb-6 transition-transform hover:scale-105 duration-300">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-indigo-500/10 text-indigo-400 mb-6 transition-transform hover:scale-105 duration-300 ring-1 ring-indigo-500/30">
             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Create an account</h2>
-          <p className="text-sm text-gray-500">Join LoopChat and connect with your close ones.</p>
+          <h2 className="text-3xl font-bold tracking-tight mb-2 gradient-text">Create an account</h2>
+          <p className="text-sm text-slate-400">Join LoopChat and connect with your close ones.</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-5">
           <div className="space-y-1">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
+            <label htmlFor="name" className="block text-sm font-medium text-slate-300">Full Name</label>
             <input
               onChange={(e) => setFullName(e.target.value)}
               id="name"
@@ -44,13 +48,13 @@ const Signup = () => {
               type="text"
               required
               autoComplete="name"
-              className="block w-full rounded-xl border-0 bg-gray-50/50 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all duration-200"
+              className="block w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-slate-200 outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 sm:text-sm transition-all duration-200 placeholder:text-slate-600 hover:bg-slate-900/70"
               placeholder="John Doe"
             />
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-300">Email address</label>
             <input
               onChange={(e) => setEmail(e.target.value)}
               id="email"
@@ -58,13 +62,13 @@ const Signup = () => {
               type="email"
               required
               autoComplete="email"
-              className="block w-full rounded-xl border-0 bg-gray-50/50 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all duration-200"
+              className="block w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-slate-200 outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 sm:text-sm transition-all duration-200 placeholder:text-slate-600 hover:bg-slate-900/70"
               placeholder="you@example.com"
             />
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-slate-300">Password</label>
             <input
               onChange={(e) => setPassword(e.target.value)}
               id="password"
@@ -72,24 +76,24 @@ const Signup = () => {
               type="password"
               required
               autoComplete="new-password"
-              className="block w-full rounded-xl border-0 bg-gray-50/50 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all duration-200"
+              className="block w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-slate-200 outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 sm:text-sm transition-all duration-200 placeholder:text-slate-600 hover:bg-slate-900/70"
               placeholder="••••••••"
             />
           </div>
 
           <button
             type="submit"
-            className="flex w-full justify-center items-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-500 hover:shadow-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 mt-8"
+            className="flex w-full justify-center items-center rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-200 mt-8 transform hover:scale-[1.02] active:scale-[0.98] border border-white/10"
           >
             Sign Up
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-gray-500">
+        <p className="mt-8 text-center text-sm text-slate-400">
           Already have an account?{" "}
           <button
             onClick={() => navigate("/login")}
-            className="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors"
+            className="font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
           >
             Log in instead
           </button>

@@ -36,13 +36,17 @@ const ProfilePhoto = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4">
-      <div className="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-gray-900/5 p-8 sm:p-10 transition-all duration-300">
+    <div className="flex justify-center items-center min-h-[100dvh] bg-[#020617] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] p-4 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 left-20 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+
+      <div className="w-full max-w-md glass-panel rounded-[2rem] p-8 sm:p-10 transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] relative z-10 border border-white/10 shadow-2xl shadow-black/50">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-3xl font-bold mb-2 gradient-text">
             Profile Photo
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-400">
             Upload a picture to personalize your account
           </p>
         </div>
@@ -51,12 +55,12 @@ const ProfilePhoto = () => {
           <div className="flex flex-col items-center justify-center gap-8">
             {/* Avatar Preview Area */}
             <div className="relative group cursor-pointer w-40 h-40">
-              <div className="w-full h-full rounded-full ring-4 ring-indigo-50 bg-gray-50 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:ring-indigo-100 shadow-inner">
+              <div className="w-full h-full rounded-full ring-4 ring-indigo-500/20 bg-slate-800/80 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:ring-indigo-500/50 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                 {preview ? (
                   <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
                   <svg
-                    className="w-20 h-20 text-gray-300 transition-colors duration-300 group-hover:text-indigo-400"
+                    className="w-20 h-20 text-slate-600 transition-colors duration-300 group-hover:text-indigo-400"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -66,7 +70,7 @@ const ProfilePhoto = () => {
               </div>
 
               {/* Upload Overlay */}
-              <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-slate-900/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm border border-white/10">
                 <svg
                   className="w-8 h-8 text-white"
                   fill="none"
@@ -89,19 +93,19 @@ const ProfilePhoto = () => {
             </div>
 
             <div className="text-center">
-              <h3 className="text-gray-900 font-medium mb-1">
+              <h3 className="text-slate-200 font-medium mb-1">
                 Click to browse or drag and drop
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-500">
                 PNG, JPG or GIF (max. 800x400px)
               </p>
             </div>
 
             <div className="w-full space-y-3 mt-4">
-              <button type="submit" className="flex w-full justify-center items-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-500 hover:shadow-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200">
+              <button type="submit" className="flex w-full justify-center items-center rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-200 border border-white/10 transform hover:scale-[1.02] active:scale-[0.98]">
                 Upload Image
               </button>
-              <button type="button" onClick={() => navigate("/login")} className="flex w-full justify-center items-center rounded-xl bg-gray-50 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-100 border border-gray-200 transition-all duration-200">
+              <button type="button" onClick={() => navigate("/login")} className="flex w-full justify-center items-center rounded-xl bg-white/5 px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/10 border border-white/10 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
                 Skip for now
               </button>
             </div>
